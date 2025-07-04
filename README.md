@@ -1,1 +1,1 @@
-# -quizeGame
+# quizgame

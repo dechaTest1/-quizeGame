@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Quiz App</title>
+    <link rel="stylesheet" href="quize.css">
+</head>
+
+<body>
+
+    <div class="main-flex-center">
+        <!-- Nurse character and speech bubble: hidden at start, shown after quiz starts -->
+        <div class="nurse-feedback-container" id="nurseFeedbackContainer" style="display:none;">
+            <img src="assets/nurse_character.png" alt="Nurse Character" class="nurse-character" id="nurseCharacter">
+            <div class="speech-bubble" id="speechBubble"></div>
+        </div>
+
+        <div class="quiz-container">
+
+            <div class="quiz-header">
+                <h1 class="quiz-title">🧠 Quiz Master</h1>
+                <!-- ปุ่มทดสอบ modal -->
+                <button id="testModalButton" style="margin-top:10px;padding:6px 18px;font-size:1em;border-radius:12px;border:2px solid #2196F3;background:#e3f2fd;color:#1976D2;cursor:pointer;">ทดสอบแสดงรายละเอียด</button>
+            </div>
+
+            <!-- Start Screen -->
+            <div class="start-screen" id="startScreen">
+                <h2>ยินดีต้อนรับสู่ Quiz Master!</h2>
+                <p>เตรียมพร้อมสำหรับการทดสอบความรู้ที่น่าตื่นเต้น<br>
+                    มีคำถาม 10 ข้อ รอคุณอยู่</p>
+                <button class="quiz-button" onclick="startQuiz()">เริ่มทำควิซ</button>
+            </div>
+
+            <!-- Quiz Screen -->
+            <div class="quiz-screen hidden" id="quizScreen">
+                <div class="quiz-progress">
+                    <span id="questionNumber">1</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <span id="totalQuestions">10</span>
+                </div>
+
+                <div class="question-container">
+                    <div class="question-text" id="questionText"></div>
+                    <div class="options-container" id="optionsContainer"></div>
+                    <div class="feedback" id="feedback"></div>
+                </div>
+                <button class="quiz-button" id="confirmButton"
+                    style="margin-top:15px;display:none;">ยืนยันคำตอบ</button>
+                <div class="quiz-nav-row">
+                    <button class="quiz-button back-button" id="backButton" onclick="previousQuestion()"
+                        style="background: linear-gradient(135deg, #6c757d, #495057);">กลับข้อก่อนหน้า</button>
+                    <button class="quiz-button" id="nextButton" onclick="nextQuestion()" disabled>คำถามต่อไป</button>
+                </div>
+            </div>
+
+            <!-- Result Screen -->
+            <div class="result-screen hidden" id="resultScreen">
+                <div class="score-circle">
+                    <div class="score-inner">
+                        <div class="score-percentage" id="scorePercentage">0%</div>
+                        <div class="score-label">คะแนน</div>
+                    </div>
+                </div>
+                <div class="result-message" id="resultMessage"></div>
+                <div class="result-details">
+                    <p>คุณตอบถูก <span id="correctAnswers">0</span> จาก <span id="totalQuestionsFinal">10</span> ข้อ</p>
+                </div>
+                <button class="quiz-button" onclick="resetQuiz()">เริ่มใหม่</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="quize.js"></script>
+    <script>
+    // ปุ่มทดสอบ modal
+    document.addEventListener('DOMContentLoaded', function() {
+        var btn = document.getElementById('testModalButton');
+        if (btn) {
+            btn.onclick = function() {
+                // จำลองข้อมูล detail
+                if (typeof showOptionDetailModal === 'function') {
+                    showOptionDetailModal({details: ['รายละเอียดตัวอย่างสำหรับปุ่มทดสอบ']} , 0);
+                } else {
+                    alert('ไม่พบฟังก์ชัน showOptionDetailModal');
+                }
+            };
+        }
+    });
+    </script>
+    </script>
+</body>
+
+</html>
