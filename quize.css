@@ -41,14 +41,21 @@
 
 .option-detail-modal-content {
     background: #fff;
-    border-radius: 18px;
+    border-radius: 14px;
     box-shadow: 0 8px 32px rgba(33, 150, 243, 0.18);
-    padding: 32px 28px 24px 28px;
-    min-width: 240px;
+    padding: 2.5vw 2vw 2vw 2vw;
+    min-width: 180px;
     max-width: 90vw;
-    min-height: 80px;
+    width: 38vw;
+    min-height: 40px;
     position: relative;
     text-align: left;
+    font-size: clamp(0.85em, 1.1vw, 1em);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: width 0.2s, max-width 0.2s, font-size 0.2s, padding 0.2s;
 }
 
 .option-detail-modal-close {
@@ -70,10 +77,38 @@
 }
 
 .option-detail-modal-body {
-    font-size: 1.1em;
-    color: #1976D2;
-    margin-top: 12px;
-    white-space: pre-line;
+    font-size: 0.97em;
+    margin-top: 6px;
+    width: 100%;
+}
+
+@media (max-width: 900px) {
+    .option-detail-modal-content {
+        max-width: 98vw;
+        width: 80vw;
+        padding: 2vw 2vw;
+        font-size: clamp(0.85em, 1.6vw, 0.97em);
+        border-radius: 10px;
+    }
+}
+
+@media (max-width: 600px) {
+    .option-detail-modal-content {
+        padding: 2vw 2vw;
+        max-width: 99vw;
+        width: 96vw;
+        font-size: clamp(0.8em, 2vw, 0.93em);
+        border-radius: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .option-detail-modal-content {
+        padding: 1vw 1vw;
+        max-width: 100vw;
+        width: 99vw;
+        font-size: clamp(0.75em, 2.5vw, 0.89em);
+    }
 }
 
 /* Main flex layout for nurse + quiz center */
@@ -290,19 +325,25 @@
     margin-right: auto;
 }
 
-.quiz-nav-row .quiz-button {
-    width: 40%;
-    min-width: 0;
-}
-
 @media (max-width: 600px) {
     .quiz-nav-row {
-        flex-direction: column;
-        gap: 10px;
+        flex-direction: row !important;
+        gap: 8px;
+        width: 100%;
+        justify-content: space-between;
+        align-items: stretch;
+        margin-top: 8px;
     }
 
     .quiz-nav-row .quiz-button {
-        width: 100%;
+        width: 48%;
+        margin-top: 0;
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    .quiz-nav-row .back-button {
+        margin-right: 0;
     }
 }
 
@@ -315,7 +356,6 @@ body {
     justify-content: center;
     padding: 20px;
 }
-
 
 .quiz-container {
     background: white;
@@ -584,6 +624,34 @@ body {
     color: #f44336;
 }
 
+/* View Option Details Button Styling */
+.quiz-header #showAllOptionDetailsBtn {
+    background: #e3f2fd;
+    color: #1976D2;
+    border: 2px solid #2196F3;
+    font-weight: 600;
+    font-size: 0.9em;
+    padding: 6px 12px;
+    border-radius: 8px;
+    width: auto;
+    min-width: 0;
+    max-width: 220px;
+    line-height: 1.2;
+    box-shadow: none;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin: 4px 0 0 0;
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.quiz-header #showAllOptionDetailsBtn:hover {
+    background: #bbdefb;
+    color: #1565c0;
+    border-color: #1565c0;
+}
+
 @media (max-width: 768px) {
     .quiz-container {
         padding: 20px;
@@ -610,5 +678,225 @@ body {
 
     .score-percentage {
         font-size: 2.5em;
+    }
+
+    .option-detail-modal-content {
+        padding: 10px 6px 8px 6px;
+        max-width: 95vw;
+        font-size: 0.89em;
+        border-radius: 9px;
+        width: 70%;
+    }
+
+    .quiz-header #showAllOptionDetailsBtn {
+        font-size: 0.85em;
+        padding: 5px 10px;
+        max-width: 180px;
+    }
+}
+
+/* Mobile Specific Styles */
+@media (max-width: 600px) {
+    .main-flex-center {
+        flex-direction: column;
+        gap: 8px;
+        padding: 8px 0;
+    }
+
+    .quiz-container {
+        max-width: 100vw;
+        min-width: 0;
+        width: 100vw;
+        padding: 10px 3vw 20px 3vw;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .quiz-title {
+        font-size: 1.4em;
+    }
+
+    .quiz-header {
+        margin-bottom: 16px;
+    }
+
+    .question-text {
+        font-size: 0.95em;
+        margin-bottom: 16px;
+        line-height: 1.4;
+    }
+
+    .options-container {
+        gap: 8px;
+    }
+
+    .option {
+        font-size: 0.9em;
+        padding: 12px;
+        border-radius: 10px;
+    }
+
+    .quiz-button {
+        width: 100%;
+        min-width: 0;
+        max-width: 100vw;
+        font-size: 0.9em;
+        padding: 12px 0;
+        margin-top: 8px;
+        border-radius: 18px;
+    }
+
+    .quiz-nav-row .quiz-button {
+        font-size: 0.85em;
+        padding: 10px 8px;
+    }
+
+    .score-circle {
+        width: 120px;
+        height: 120px;
+    }
+
+    .score-inner {
+        width: 80px;
+        height: 80px;
+    }
+
+    .score-percentage {
+        font-size: 1.5em;
+    }
+
+    .result-message {
+        font-size: 1em;
+        margin-bottom: 10px;
+    }
+
+    .result-details {
+        padding: 10px;
+        font-size: 0.9em;
+    }
+
+    .nurse-character {
+        width: 48px;
+    }
+
+    .speech-bubble {
+        font-size: 0.85em;
+        padding: 8px 12px;
+        min-width: 60px;
+        max-width: 88vw;
+        border-radius: 16px 16px 18px 16px/18px 18px 20px 18px;
+    }
+
+    .speech-bubble::after {
+        right: 10px;
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        border-bottom: 10px solid #e3f2fd;
+    }
+
+    .nurse-feedback-container {
+        min-width: 0;
+        max-width: 100vw;
+        margin-bottom: 0;
+        gap: 4px;
+    }
+
+    .progress-bar {
+        height: 5px;
+        margin: 0 6px;
+    }
+
+    .quiz-progress {
+        padding: 8px;
+        margin-bottom: 16px;
+        font-size: 0.9em;
+    }
+
+    .feedback {
+        font-size: 0.9em;
+    }
+
+    /* View Option Details Button - Mobile */
+    .quiz-header #showAllOptionDetailsBtn {
+        font-size: 0.8em;
+        padding: 4px 8px;
+        border-radius: 6px;
+        max-width: 150px;
+        gap: 3px;
+    }
+
+    .quiz-header #showAllOptionDetailsBtn span:first-child {
+        font-size: 1em;
+    }
+
+    /* Modal adjustments for mobile */
+    .option-detail-modal-content {
+        padding: 10px 6px 8px 6px;
+        max-width: 95vw;
+        font-size: 0.89em;
+        border-radius: 9px;
+        width: 70%;
+    }
+
+    .option-detail-modal-body {
+        font-size: 0.89em;
+    }
+
+    .option-detail-modal-close {
+        font-size: 1.5em;
+        top: 8px;
+        right: 12px;
+    }
+}
+
+/* Extra small screens */
+@media (max-width: 480px) {
+    .quiz-container {
+        padding: 8px 2vw 16px 2vw;
+    }
+
+    .quiz-title {
+        font-size: 1.3em;
+    }
+
+    .question-text {
+        font-size: 0.9em;
+    }
+
+    .option {
+        font-size: 0.85em;
+        padding: 10px;
+    }
+
+    .quiz-button {
+        font-size: 0.85em;
+        padding: 10px 0;
+    }
+
+    .quiz-nav-row .quiz-button {
+        font-size: 0.8em;
+        padding: 8px 4px;
+    }
+
+    .quiz-header #showAllOptionDetailsBtn {
+        font-size: 0.75em;
+        padding: 3px 6px;
+        max-width: 120px;
+    }
+
+    .speech-bubble {
+        font-size: 0.8em;
+        padding: 6px 10px;
+        max-width: 85vw;
+    }
+
+    .option-detail-modal-content {
+        padding: 6px 2vw 6px 2vw;
+        max-width: 99vw;
+        font-size: 0.82em;
+    }
+
+    .option-detail-modal-body {
+        font-size: 0.82em;
     }
 }
