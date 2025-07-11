@@ -13,7 +13,7 @@
     <div class="main-flex-center">
         <!-- Nurse character and speech bubble: hidden at start, shown after quiz starts -->
         <div class="nurse-feedback-container" id="nurseFeedbackContainer" style="display:none;">
-            <img src="assets/nurse_character.png" alt="Nurse Character" class="nurse-character" id="nurseCharacter">
+            <img src="assets/Nurse_character_1.png" alt="Nurse Character" class="nurse-character" id="nurseCharacter">
             <div class="speech-bubble" id="speechBubble"></div>
         </div>
 
@@ -47,8 +47,8 @@
                     <div class="options-container" id="optionsContainer"></div>
                     <div class="feedback" id="feedback"></div>
                 </div>
-                <button class="quiz-button" id="confirmButton"
-                    style="margin-top:15px;display:none;">Confirm Answer</button>
+                <button class="quiz-button" id="confirmButton" style="margin-top:15px;display:none;">Confirm
+                    Answer</button>
                 <div class="quiz-nav-row">
                     <button class="quiz-button back-button" id="backButton" onclick="previousQuestion()"
                         style="background: linear-gradient(135deg, #6c757d, #495057);">Previous</button>
@@ -66,16 +66,18 @@
                 </div>
                 <div class="result-message" id="resultMessage"></div>
                 <div class="result-details">
-                    <p>You answered <span id="correctAnswers">0</span> out of <span id="totalQuestionsFinal">10</span> questions correctly</p>
+                    <p>You answered <span id="correctAnswers">0</span> out of <span id="totalQuestionsFinal">10</span>
+                        questions correctly</p>
                 </div>
                 <button class="quiz-button" onclick="resetQuiz()">Restart</button>
                 <button class="quiz-button" id="showSummaryBtn" style="margin-top:12px;">View Summary</button>
                 <!-- Modal for result summary -->
                 <div id="quizSummaryModal" class="option-detail-modal" style="display:none;z-index:100000;">
-                  <div class="option-detail-modal-content" style="max-height:70vh;overflow-y:auto;min-width:320px;max-width:98vw;">
-                    <button class="option-detail-modal-close" id="quizSummaryModalClose">&times;</button>
-                    <div class="option-detail-modal-body" id="quizSummaryContent"></div>
-                  </div>
+                    <div class="option-detail-modal-content"
+                        style="max-height:70vh;overflow-y:auto;min-width:320px;max-width:98vw;">
+                        <button class="option-detail-modal-close" id="quizSummaryModalClose">&times;</button>
+                        <div class="option-detail-modal-body" id="quizSummaryContent"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -83,22 +85,22 @@
 
     <script type="module" src="quize.js"></script>
     <script>
-    // Bind View Option Details button to showAllOptionDetailsModal for the current question
-    import { loadQuizData } from './quize.js';
-    document.addEventListener('DOMContentLoaded', async function() {
-        const btn = document.getElementById('showAllOptionDetailsBtn');
-        if (btn) {
-            const quizData = await loadQuizData();
-            btn.onclick = function() {
-                let current = window.currentQuestion || 0;
-                if (quizData && quizData.questions && quizData.questions[current]) {
-                    if (typeof window.showAllOptionDetailsModal === 'function') {
-                        window.showAllOptionDetailsModal(quizData.questions[current], null);
+        // Bind View Option Details button to showAllOptionDetailsModal for the current question
+        import { loadQuizData } from './quize.js';
+        document.addEventListener('DOMContentLoaded', async function () {
+            const btn = document.getElementById('showAllOptionDetailsBtn');
+            if (btn) {
+                const quizData = await loadQuizData();
+                btn.onclick = function () {
+                    let current = window.currentQuestion || 0;
+                    if (quizData && quizData.questions && quizData.questions[current]) {
+                        if (typeof window.showAllOptionDetailsModal === 'function') {
+                            window.showAllOptionDetailsModal(quizData.questions[current], null);
+                        }
                     }
-                }
-            };
-        }
-    });
+                };
+            }
+        });
     </script>
 </body>
 
