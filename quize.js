@@ -1,3 +1,43 @@
+// --- Nurse Character Image Cycling Logic ---
+const nurseCharacterImgs = [
+    'assets/Nurse_character_1.png',
+    'assets/Nurse_character_2.png',
+    'assets/Nurse_character_3.png',
+    'assets/Nurse_character_4.png'
+];
+const nurseTrueImg = 'assets/Nurse_true.png';
+const nurseFalseImg = 'assets/Nurse_false.png';
+const nurseResultImg = 'assets/Nurse_result.png';
+
+let nurseCycleIndex = 0;
+function showNurseCycleImage() {
+    const nurseImg = document.getElementById('nurseCharacter');
+    if (!nurseImg) return;
+    nurseImg.src = nurseCharacterImgs[nurseCycleIndex];
+}
+
+function nextNurseCycleImage() {
+    nurseCycleIndex = (nurseCycleIndex + 1) % nurseCharacterImgs.length;
+    showNurseCycleImage();
+}
+
+
+function showNurseTrue() {
+    const nurseImg = document.getElementById('nurseCharacter');
+    if (nurseImg) nurseImg.src = nurseTrueImg;
+}
+
+
+function showNurseFalse() {
+    const nurseImg = document.getElementById('nurseCharacter');
+    if (nurseImg) nurseImg.src = nurseFalseImg;
+}
+
+
+function showNurseResult() {
+    const nurseImg = document.getElementById('nurseCharacter');
+    if (nurseImg) nurseImg.src = nurseResultImg;
+}
 let quizData = null;
 
 async function loadQuizData() {
@@ -23,6 +63,8 @@ async function startQuiz() {
     const speechBubble = document.getElementById('speechBubble');
     if (nurseContainer) nurseContainer.style.display = '';
     if (speechBubble) speechBubble.textContent = '';
+    nurseCycleIndex = 0;
+    showNurseCycleImage();
     showQuestion();
 }
 
@@ -58,7 +100,32 @@ async function showQuestion() {
 
     document.getElementById('questionNumber').textContent = currentQuestion + 1;
     document.getElementById('totalQuestions').textContent = quizData.questions.length;
-    document.getElementById('questionText').textContent = question.question;
+    // Render question: support array (multi-line) or string
+    const questionTextDiv = document.getElementById('questionText');
+    questionTextDiv.innerHTML = '';
+    if (Array.isArray(question.question)) {
+        question.question.forEach((line) => {
+            const p = document.createElement('div');
+            p.textContent = line;
+            p.style.textAlign = 'left';
+            p.style.margin = '0 auto';
+            p.style.width = '100%';
+            p.style.maxWidth = '98%';
+            p.style.fontWeight = '500'; // ทุกบรรทัดตัวหนา
+            p.style.lineHeight = '1.5';
+            questionTextDiv.appendChild(p);
+        });
+    } else {
+        const p = document.createElement('div');
+        p.textContent = question.question;
+        p.style.textAlign = 'left';
+        p.style.margin = '0 auto';
+        p.style.width = '100%';
+        p.style.maxWidth = '98%';
+        p.style.fontWeight = '500';
+        p.style.lineHeight = '1.5';
+        questionTextDiv.appendChild(p);
+    }
 
     // Update progress bar
     const progress = ((currentQuestion + 1) / quizData.questions.length) * 100;
@@ -75,13 +142,23 @@ async function showQuestion() {
         const textSpan = document.createElement('span');
         textSpan.textContent = option;
         optionElement.appendChild(textSpan);
+        // Add click event to select answer
+        optionElement.onclick = function () {
+            if (!isAnswered) {
+                // Remove selected from all
+                Array.from(optionsContainer.children).forEach(opt => opt.classList.remove('selected'));
+                optionElement.classList.add('selected');
+                selectedAnswer = index;
+                document.getElementById('nextButton').disabled = false;
+            }
+        };
         optionsContainer.appendChild(optionElement);
     });
-    
+
     // Remove info button if exists
     const oldExplainBtn = document.getElementById('optionExplainBtn');
     if (oldExplainBtn) oldExplainBtn.remove();
-    
+
     // Remove show option details button if exists
     const oldShowAllOptionDetailsBtn = document.getElementById('showAllOptionDetailsBtn');
     if (oldShowAllOptionDetailsBtn) oldShowAllOptionDetailsBtn.remove();
@@ -92,7 +169,15 @@ async function showQuestion() {
 
     document.getElementById('nextButton').disabled = true;
     document.getElementById('feedback').classList.remove('show');
-    
+
+
+    // Change nurse image to next in cycle (except on first question)
+    if (currentQuestion !== 0) {
+        nextNurseCycleImage();
+    } else {
+        nurseCycleIndex = 0;
+        showNurseCycleImage();
+    }
     // Hide only speech bubble every time question changes, but nurse always shows
     const nurseContainer = document.getElementById('nurseFeedbackContainer');
     if (nurseContainer) nurseContainer.classList.remove('show-bubble');
@@ -102,7 +187,7 @@ async function showQuestion() {
     if (currentQuestion === quizData.questions.length - 1) {
         nextButton.textContent = 'View Results';
     } else {
-        nextButton.textContent = 'Next Question';
+        nextButton.textContent = 'Next';
     }
 
     // Show/hide back button
@@ -154,6 +239,10 @@ function confirmAnswer(answerIndex) {
     // Select answer
     selectedAnswer = answerIndex;
     options[answerIndex].classList.add('selected');
+
+    // --- Ensure userAnswers is updated ---
+    userAnswers[currentQuestion] = answerIndex;
+    // --- End update ---
 
     setTimeout(() => {
         isAnswered = true;
@@ -372,7 +461,7 @@ function showFeedback(type, message) {
         }
         setTimeout(typeWriter, 250);
     }
-    // Nurse feedback logic with typewriter effect
+    // Nurse feedback logic with typewriter effect and image swap
     const nurseContainer = document.getElementById('nurseFeedbackContainer');
     const speechBubble = document.getElementById('speechBubble') || document.getElementById('nurseSpeechBubble');
     if (nurseContainer && speechBubble) {
@@ -386,6 +475,7 @@ function showFeedback(type, message) {
         // Extract only correct answer ("history")
         let correctOnly = '';
         if (type === 'correct') {
+            showNurseTrue();
             const praise = [
                 'Excellent!',
                 'Great job!',
@@ -398,6 +488,7 @@ function showFeedback(type, message) {
             if (match) correctOnly = 'Correct answer: "' + match[1] + '"';
             nurseMsg = praise[Math.floor(Math.random() * praise.length)] + ' ' + correctOnly;
         } else {
+            showNurseFalse();
             const encourage = [
                 'That\'s okay, try again!',
                 'Keep going!',
@@ -409,6 +500,7 @@ function showFeedback(type, message) {
             const match = (message || '').match(/"([^"]+)"/);
             if (match) correctOnly = 'Correct answer: "' + match[1] + '"';
             nurseMsg = encourage[Math.floor(Math.random() * encourage.length)] + ' ' + correctOnly;
+            // หลัง feedback ผิด ให้เปลี่ยนกลับเป็นรูป cycle ทันทีเมื่อเปลี่ยนข้อ
         }
         nurseContainer.style.display = 'flex';
         // Typewriter effect
@@ -422,6 +514,7 @@ function showFeedback(type, message) {
             }
         }
         setTimeout(typeWriter, 250); // delay before start typing
+        // ไม่ resume cycle อัตโนมัติ ให้รอจนกดข้อถัดไป
     }
 }
 
@@ -447,6 +540,7 @@ function nextQuestion() {
 function showResult() {
     document.getElementById('quizScreen').classList.add('hidden');
     document.getElementById('resultScreen').classList.remove('hidden');
+    showNurseResult();
 
     const percentage = Math.round((score / quizData.questions.length) * 100);
 
@@ -477,7 +571,7 @@ function showResult() {
     // Hide option details button if exists
     const oldShowAllOptionDetailsBtn = document.getElementById('showAllOptionDetailsBtn');
     if (oldShowAllOptionDetailsBtn) oldShowAllOptionDetailsBtn.remove();
-    
+
     // Hide option details modal if exists
     const oldAllOptionDetailsModal = document.getElementById('allOptionDetailsModal');
     if (oldAllOptionDetailsModal) oldAllOptionDetailsModal.remove();
@@ -497,7 +591,7 @@ function downloadQuizSummary() {
             explanation: q.explanation
         }))
     };
-    const blob = new Blob([JSON.stringify(summary, null, 2)], {type: 'application/json'});
+    const blob = new Blob([JSON.stringify(summary, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -526,6 +620,7 @@ function resetQuiz() {
     // Hide nurse feedback when resetting
     const nurseContainer = document.getElementById('nurseFeedbackContainer');
     if (nurseContainer) nurseContainer.style.display = 'none';
+    // nothing to stop, nurse image will reset on startQuiz
 }
 
 // Function to show quiz summary modal
@@ -536,19 +631,45 @@ function showQuizSummaryModal() {
         // Create summary data
         let html = '';
         html += `<div style='font-size:1.2em;font-weight:bold;margin-bottom:10px;'>Quiz Summary</div>`;
-        html += `<div style='margin-bottom:10px;'>Score: <b>${score}</b> / ${quizData.questions.length} (${Math.round((score/quizData.questions.length)*100)}%)</div>`;
+        html += `<div style='margin-bottom:10px;'>Score: <b>${score}</b> / ${quizData.questions.length} (${Math.round((score / quizData.questions.length) * 100)}%)</div>`;
         html += `<div style='margin-bottom:10px;'>\n`;
         quizData.questions.forEach((q, idx) => {
             const userAns = userAnswers[idx];
             const isCorrect = userAns === q.correct;
             html += `<div style='margin-bottom:12px;padding:10px 0;border-bottom:1px solid #e0e0e0;'>`;
-            html += `<div style='font-weight:bold;'>${idx+1}. ${q.question}</div>`;
+            // Render question: support array (multi-line) or string
+            if (Array.isArray(q.question)) {
+                html += `<div style='font-weight:bold;'>${idx + 1}.`;
+                q.question.forEach((line) => {
+                    html += `<div style='font-weight:500;'>${line}</div>`;
+                });
+                html += `</div>`;
+            } else {
+                html += `<div style='font-weight:bold;'>${idx + 1}. ${q.question}</div>`;
+            }
             html += `<div style='margin:4px 0 4px 0;'>`;
             q.options.forEach((opt, i) => {
-                let style = 'color:#333;';
-                if (i === q.correct) style = 'color:#388e3c;font-weight:bold;';
-                if (i === userAns && !isCorrect) style = 'color:#d32f2f;font-weight:bold;';
-                html += `<div style='margin-left:1.5em;${style}'>${String.fromCharCode(65+i)}. ${opt}</div>`;
+                let style = 'color:#333; font-weight:normal;';
+                let icon = '';
+                if (i === userAns && i === q.correct) {
+                    style = 'color:#388e3c;font-weight:bold;';
+                    icon = '✔️ ';
+                } else if (i === userAns && i !== q.correct) {
+                    style = 'color:#d32f2f;font-weight:bold;';
+                    icon = '❌ ';
+                } else if (i === q.correct) {
+                    style = 'color:#388e3c;font-weight:bold;';
+                    icon = '✔️ ';
+                }
+                // Remove A. B. C. D. prefix if already present in opt
+                let displayOpt = opt;
+                const abcdRegex = /^[A-D]\.\s/;
+                if (abcdRegex.test(opt)) {
+                    displayOpt = opt;
+                } else {
+                    displayOpt = String.fromCharCode(65 + i) + '. ' + opt;
+                }
+                html += `<div style='margin-left:1.5em;${style}'>${icon}${displayOpt}</div>`;
             });
             html += `</div>`;
             html += `<div style='margin:4px 0;'>`;
