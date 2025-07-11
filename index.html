@@ -1,251 +1,459 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Let's Play Qnario!</title>
-    <link rel="stylesheet" href="quize.css">
+    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
     <style>
+        html,
         body {
-            overflow-x: hidden;
-            position: relative;
+            height: 100%;
+            margin: 0;
+            padding: 0;
         }
+
+        body {
+            font-family: 'Luckiest Guy', cursive;
+            background: #0a1e6b;
+            color: #fff;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }
+
         .container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 20px;
-            position: relative;
-        }
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            position: relative;
-        }
-        .lets-play {
-            font-size: 3.5rem;
-            font-weight: bold;
-            color: #1976D2;
-            text-shadow: 2px 2px 4px rgba(33,150,243,0.15);
-            margin-bottom: 20px;
-            animation: bounce 2s ease-in-out infinite;
-        }
-        .game-title {
-            font-size: 6rem;
-            font-weight: 900;
-            color: #2196F3;
-            -webkit-text-stroke: 3px #1976D2;
-            text-shadow: 0 0 20px rgba(33,150,243,0.15), 0 0 40px rgba(100,181,246,0.10), 5px 5px 10px rgba(0,0,0,0.10);
-            animation: glow 3s ease-in-out infinite alternate;
-            letter-spacing: 8px;
-        }
-        .apple-character {
-            position: absolute;
-            top: -50px;
-            right: -100px;
-            width: 120px;
-            height: 120px;
-            background: linear-gradient(145deg, #64B5F6, #2196F3);
-            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-            animation: float 3s ease-in-out infinite;
-            box-shadow: 0 10px 30px rgba(33, 150, 243, 0.15);
-        }
-        .apple-character::before {
-            content: '';
-            position: absolute;
-            top: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 30px;
-            height: 20px;
-            background: #43a047;
-            border-radius: 0 0 50% 50%;
-        }
-        .apple-character::after {
-            content: '';
-            position: absolute;
-            top: 30%;
-            left: 25%;
-            width: 15px;
-            height: 8px;
-            background: #1976D2;
-            border-radius: 50%;
-            box-shadow: 25px 0 0 #1976D2, 12px 20px 0 #64B5F6;
-        }
-        .click-button {
-            background: linear-gradient(135deg, #2196F3, #64B5F6);
-            color: white;
-            font-size: 1.8rem;
-            font-weight: bold;
-            padding: 15px 40px;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            position: relative;
             overflow: hidden;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 25px rgba(33, 150, 243, 0.15);
-            animation: pulse 2s infinite;
         }
+
+        .lets-play {
+            font-size: 3.5vw;
+            font-weight: bold;
+            margin-bottom: 1vw;
+            margin-top: 2vw;
+            letter-spacing: 0.02em;
+            text-shadow: 2px 2px 8px #0008;
+            z-index: 2;
+            animation: floatLetsPlay 3.2s ease-in-out infinite;
+        }
+
+        @keyframes floatLetsPlay {
+            0% {
+                transform: translateY(0);
+            }
+
+            20% {
+                transform: translateY(-8px) scale(1.04);
+            }
+
+            40% {
+                transform: translateY(-16px) scale(1.07);
+            }
+
+            60% {
+                transform: translateY(-8px) scale(1.04);
+            }
+
+            80% {
+                transform: translateY(0);
+            }
+
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        .title-row {
+            display: flex;
+            flex-direction: row;
+            gap: 1vw;
+            justify-content: center;
+            align-items: flex-end;
+            margin-bottom: 2vw;
+            z-index: 2;
+        }
+
+        .letter-img {
+            width: 7vw;
+            max-width: 110px;
+            min-width: 60px;
+            height: 8vw;
+            max-height: 120px;
+            min-height: 60px;
+            filter: drop-shadow(0 2px 8px #0006);
+        }
+
+        .letter-img-i,
+        .letter-img-i {
+            width: 5vw;
+            max-width: 60px;
+            min-width: 30px;
+            height: 9vw;
+            max-height: 135px;
+            min-height: 65px;
+            filter: drop-shadow(0 6px 18px #0006);
+            vertical-align: bottom;
+        }
+
+        .letter-img-o {
+            width: 8vw;
+            max-width: 130px;
+            min-width: 65px;
+            height: 9vw;
+            max-height: 135px;
+            min-height: 65px;
+            filter: drop-shadow(0 6px 18px #0006);
+            vertical-align: bottom;
+        }
+
+        .exclaim {
+            width: 8vw;
+            min-width: 48px;
+            max-width: 110px;
+            height: 10vw;
+            min-height: 60px;
+            max-height: 140px;
+            margin-left: 0.7vw;
+            vertical-align: bottom;
+            display: inline-block;
+        }
+
+        .click-button {
+            margin-top: 2.5vw;
+            padding: 1.2vw 4vw;
+            font-size: 2vw;
+            font-weight: bold;
+            background: linear-gradient(135deg, #2196F3 60%, #64B5F6 100%);
+            border: none;
+            border-radius: 40px;
+            color: #fff;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(33, 150, 243, 0.30);
+            transition: transform 0.18s, box-shadow 0.18s;
+            letter-spacing: 0.04em;
+            z-index: 2;
+        }
+
         .click-button:hover {
-            transform: scale(1.1);
-            box-shadow: 0 12px 35px rgba(33, 150, 243, 0.25);
+            transform: scale(1.07);
+            box-shadow: 0 16px 40px rgba(33, 150, 243, 0.35);
         }
-        .click-button::before {
-            content: '👆';
+
+        /* Decorations */
+        .decor {
             position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 1.5rem;
+            z-index: 1;
+            pointer-events: none;
         }
-        .decoration {
-            position: absolute;
-            opacity: 0.7;
-            animation: float 4s ease-in-out infinite;
+
+        .firework {
+            left: -3vw;
+            /* ขยับออกซ้ายมากขึ้น */
+            bottom: 7vh;
+            /* ขยับลงล่างมากขึ้น */
+            top: auto;
+            /* ยกเลิก top */
+            width: 16vw;
+            /* ขยายขนาดให้ใหญ่ขึ้น */
+            min-width: 360px;
+            max-width: 660px;
+            transform: rotate(-18deg);
+            /* หมุนให้เอียงเหมือนใน UI */
+            z-index: 2;
         }
+
+        .apple {
+            right: 2vw;
+            top: 4vh;
+            width: 5vw;
+            min-width: 144px;
+            max-width: 240px;
+        }
+
+        .nurse {
+            right: 3vw;
+            bottom: 2vh;
+            width: 7vw;
+            min-width: 60px;
+            max-width: 110px;
+        }
+
+        .wavy {
+            left: 1vw;
+            bottom: 7vh;
+            width: 7vw;
+            min-width: 50px;
+            max-width: 100px;
+        }
+
         .star {
-            width: 30px;
-            height: 30px;
-            background: #FFD700;
-            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.8));
+            width: 2vw;
+            min-width: 18px;
+            max-width: 32px;
         }
-        .star1 { top: 20%; left: 10%; animation-delay: -1s; }
-        .star2 { top: 30%; right: 15%; animation-delay: -2s; }
-        .star3 { bottom: 25%; left: 20%; animation-delay: -3s; }
-        .star4 { bottom: 35%; right: 25%; animation-delay: -4s; }
-        .circle {
-            width: 80px;
-            height: 80px;
-            border: 4px solid rgba(33, 150, 243, 0.15);
-            border-radius: 50%;
-            animation: rotate 10s linear infinite;
+
+        .star1 {
+            left: 10vw;
+            top: 13vh;
         }
-        .circle1 { top: 15%; left: 5%; }
-        .circle2 { bottom: 20%; right: 10%; animation-direction: reverse; }
-        .character {
-            position: absolute;
-            bottom: 10%;
-            right: 5%;
-            width: 100px;
-            height: 120px;
-            background: linear-gradient(145deg, #bbdefb, #1976D2);
-            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-            animation: bounce 2s ease-in-out infinite;
+
+        .star2 {
+            right: 16vw;
+            bottom: 18vh;
         }
-        .character::before {
-            content: '';
-            position: absolute;
-            top: 20%;
-            left: 20%;
-            width: 15px;
-            height: 10px;
-            background: #2d3436;
-            border-radius: 50%;
-            box-shadow: 25px 0 0 #2d3436;
+
+        .star3 {
+            left: 22vw;
+            top: 38vh;
         }
-        .character::after {
-            content: '';
-            position: absolute;
-            bottom: 30%;
-            left: 35%;
-            width: 8px;
-            height: 4px;
-            background: #64B5F6;
-            border-radius: 50%;
+
+        .star4 {
+            right: 8vw;
+            top: 22vh;
         }
-        .dog {
-            position: absolute;
-            bottom: 40%;
-            left: 15%;
-            width: 80px;
-            height: 60px;
-            background: #FFD700;
-            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-            animation: wag 1s ease-in-out infinite;
+
+        .star5 {
+            left: 16vw;
+            bottom: 13vh;
         }
-        .dog::before {
-            content: '';
-            position: absolute;
-            top: -10px;
-            left: 10px;
-            width: 25px;
-            height: 25px;
-            background: #FFD700;
-            border-radius: 50% 50% 0 50%;
-            box-shadow: 35px 0 0 #FFD700;
+
+        .star6 {
+            right: 7vw;
+            top: 4vh;
         }
-        .dog::after {
-            content: '';
-            position: absolute;
-            top: 20px;
-            left: 15px;
-            width: 8px;
-            height: 5px;
-            background: #1976D2;
-            border-radius: 50%;
-            box-shadow: 20px 0 0 #1976D2, 10px 10px 0 #1976D2;
+
+        .star7 {
+            right: 3vw;
+            top: 10vh;
         }
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-20px); }
-            60% { transform: translateY(-10px); }
+
+        /* Floating animation for stars */
+        .floating-star {
+            animation: floatStar 3.5s ease-in-out infinite;
         }
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
+
+        .star1.floating-star {
+            animation-delay: 0s;
         }
-        @keyframes glow {
-            0% { text-shadow: 0 0 20px rgba(33,150,243,0.15), 0 0 40px rgba(100,181,246,0.10), 5px 5px 10px rgba(0,0,0,0.10); }
-            100% { text-shadow: 0 0 30px rgba(33,150,243,0.25), 0 0 60px rgba(100,181,246,0.18), 5px 5px 15px rgba(0,0,0,0.15); }
+
+        .star2.floating-star {
+            animation-delay: 1.1s;
         }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+
+        .star3.floating-star {
+            animation-delay: 2.2s;
         }
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+
+        .star4.floating-star {
+            animation-delay: 0.7s;
         }
-        @keyframes wag {
-            0%, 100% { transform: rotate(0deg); }
-            25% { transform: rotate(-5deg); }
-            75% { transform: rotate(5deg); }
+
+        .star5.floating-star {
+            animation-delay: 1.7s;
         }
-        @media (max-width: 768px) {
-            .lets-play { font-size: 2.5rem; }
-            .game-title { font-size: 4rem; letter-spacing: 4px; }
-            .click-button { font-size: 1.5rem; padding: 12px 30px; }
-            .apple-character { width: 80px; height: 80px; top: -30px; right: -50px; }
+
+        .star6.floating-star {
+            animation-delay: 0.5s;
         }
-        @media (max-width: 480px) {
-            .lets-play { font-size: 2rem; }
-            .game-title { font-size: 3rem; letter-spacing: 2px; }
-            .click-button { font-size: 1.2rem; padding: 10px 25px; }
+
+        .star7.floating-star {
+            animation-delay: 1.3s;
+        }
+
+        @keyframes floatStar {
+            0% {
+                transform: translateY(0) scale(1) rotate(0deg);
+            }
+
+            20% {
+                transform: translateY(-8px) scale(1.08) rotate(-8deg);
+            }
+
+            40% {
+                transform: translateY(-16px) scale(1.12) rotate(6deg);
+            }
+
+            60% {
+                transform: translateY(-8px) scale(1.08) rotate(-6deg);
+            }
+
+            80% {
+                transform: translateY(0) scale(1) rotate(4deg);
+            }
+
+            100% {
+                transform: translateY(0) scale(1) rotate(0deg);
+            }
+        }
+
+        /* Floating animation for firework */
+        .floating-firework {
+            animation: floatFirework 4.2s ease-in-out infinite;
+        }
+
+        @keyframes floatFirework {
+            0% {
+                transform: rotate(-18deg) translateY(0) scale(1);
+            }
+
+            15% {
+                transform: rotate(-16deg) translateY(-10px) scale(1.03);
+            }
+
+            30% {
+                transform: rotate(-20deg) translateY(-18px) scale(1.06);
+            }
+
+            50% {
+                transform: rotate(-17deg) translateY(-10px) scale(1.03);
+            }
+
+            70% {
+                transform: rotate(-18deg) translateY(0) scale(1);
+            }
+
+            100% {
+                transform: rotate(-18deg) translateY(0) scale(1);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+
+            .letter-img-i {
+                width: 8vw;
+                min-width: 24px;
+                height: 14vw;
+                max-width: 40px;
+                max-height: 80px;
+                min-height: 40px;
+            }
+
+            .letter-img-o {
+                width: 13vw;
+                min-width: 40px;
+                height: 14vw;
+                max-width: 80px;
+                max-height: 80px;
+                min-height: 40px;
+            }
+
+            .lets-play {
+                font-size: 6vw;
+            }
+
+            .title-row {
+                gap: 2vw;
+            }
+
+            .letter-img {
+                width: 13vw;
+                min-width: 40px;
+                height: 14vw;
+                max-height: 80px;
+                min-height: 40px;
+            }
+
+            .exclaim {
+                font-size: 8vw;
+            }
+
+            .click-button {
+                font-size: 4vw;
+                padding: 2vw 8vw;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .letter-img-i {
+                width: 10vw;
+                min-width: 18px;
+                height: 20vw;
+                max-width: 28px;
+                max-height: 65px;
+                min-height: 36px;
+            }
+
+            .letter-img-o {
+                width: 18vw;
+                min-width: 36px;
+                height: 20vw;
+                max-width: 65px;
+                max-height: 65px;
+                min-height: 36px;
+            }
+
+            .lets-play {
+                font-size: 8vw;
+            }
+
+            .title-row {
+                gap: 2vw;
+            }
+
+            .letter-img {
+                width: 16vw;
+                min-width: 30px;
+                height: 18vw;
+                max-height: 60px;
+                min-height: 30px;
+            }
+
+            .exclaim {
+                font-size: 10vw;
+            }
+
+            .click-button {
+                font-size: 5vw;
+                padding: 3vw 10vw;
+            }
+
+            .firework,
+            .apple,
+            .nurse,
+            .wavy {
+                min-width: 36px;
+            }
         }
     </style>
 </head>
+
 <body>
     <div class="container">
-        <div class="header">
-            <div class="lets-play">Let's Play</div>
-            <div class="game-title">QNARIO!</div>
-            <div class="apple-character"></div>
+        <div class="lets-play">Let's Play</div>
+        <div class="title-row">
+            <img src="assets/QNARIO/Q.png" alt="Q" class="letter-img">
+            <img src="assets/QNARIO/N.png" alt="N" class="letter-img">
+            <img src="assets/QNARIO/A.png" alt="A" class="letter-img">
+            <img src="assets/QNARIO/R.png" alt="R" class="letter-img">
+            <img src="assets/QNARIO/I.png" alt="I" class="letter-img-i">
+            <img src="assets/QNARIO/O.png" alt="O" class="letter-img-o">
+            <img src="assets/QNARIO/!.png" alt="IMG" class="exclaim">
         </div>
         <button class="click-button" onclick="startGame()">CLICK HERE</button>
-        <!-- Decorative Elements -->
-        <div class="decoration star star1"></div>
-        <div class="decoration star star2"></div>
-        <div class="decoration star star3"></div>
-        <div class="decoration star star4"></div>
-        <div class="decoration circle circle1"></div>
-        <div class="decoration circle circle2"></div>
-        <div class="character"></div>
-        <div class="dog"></div>
+        <!-- Decorations -->
+        <img src="assets/Firework_.png" class="decor firework floating-firework" alt="Firework">
+        <img src="assets/Apple.png" class="decor apple" alt="Apple">
+        <img src="assets/Nurse_1.png" class="decor nurse" alt="Nurse">
+        <img src="assets/Wavy_lines_.png" class="decor wavy" alt="Wavy">
+        <img src="assets/Star.png" class="decor star star1 floating-star" alt="Star">
+        <img src="assets/Star.png" class="decor star star2 floating-star" alt="Star">
+        <img src="assets/Star.png" class="decor star star3 floating-star" alt="Star">
+        <img src="assets/Star.png" class="decor star star4 floating-star" alt="Star">
+        <img src="assets/Star.png" class="decor star star5 floating-star" alt="Star">
+        <img src="assets/Star.png" class="decor star star6 floating-star" style="right:7vw;top:4vh;z-index:3;"
+            alt="Star">
+        <img src="assets/Star.png" class="decor star star7 floating-star" style="right:3vw;top:10vh;z-index:3;"
+            alt="Star">
     </div>
     <script>
         function startGame() {
@@ -253,40 +461,10 @@
             button.style.transform = 'scale(0.95)';
             setTimeout(() => {
                 button.style.transform = 'scale(1)';
-                // Add your game logic here
-                window.location.href = 'index2.html';
+                window.location.href = 'index.html';
             }, 150);
         }
-        document.addEventListener('mousemove', function(e) {
-            if (Math.random() > 0.9) {
-                createSparkle(e.clientX, e.clientY);
-            }
-        });
-        function createSparkle(x, y) {
-            const sparkle = document.createElement('div');
-            sparkle.style.position = 'fixed';
-            sparkle.style.left = x + 'px';
-            sparkle.style.top = y + 'px';
-            sparkle.style.width = '6px';
-            sparkle.style.height = '6px';
-            sparkle.style.background = '#FFD700';
-            sparkle.style.borderRadius = '50%';
-            sparkle.style.pointerEvents = 'none';
-            sparkle.style.zIndex = '1000';
-            sparkle.style.animation = 'sparkle 1s ease-out forwards';
-            document.body.appendChild(sparkle);
-            setTimeout(() => {
-                sparkle.remove();
-            }, 1000);
-        }
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes sparkle {
-                0% { opacity: 1; transform: scale(0) rotate(0deg); }
-                100% { opacity: 0; transform: scale(1) rotate(180deg); }
-            }
-        `;
-        document.head.appendChild(style);
     </script>
 </body>
+
 </html>
